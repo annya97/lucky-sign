@@ -1,1 +1,1 @@
-# lucky-sign
+# Lucky sign
