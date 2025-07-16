@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <title>Lucky sign</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="text-center display-1 mt-3 mb-4">Lucky sign</h1>
+            <form class="p-5 mb-4">
+                <div class="form-groups">
+                    <div class="form-group pb-4">
+                        <h2>Date of birth</h2>
+                        <div class="form-text fw-light fst-italic mb-2">Enter your date of birth.</div>
+                        <input type="text" class="form-control" id="birth-date">
+                    </div>
+                    <div class="form-group pt-4 pb-4">
+                        <h2>Colors</h2>
+                        <div class="form-text fw-light fst-italic mb-2">
+                            <div>You can choose colors for your lucky sign and its background:</div>
+                            <ul>
+                                <li>Automatic - both colors will be calculated from your date of birth.</li>
+                                <li>Custom - choose whatever colors you want.</li>
+                            </ul>
+                        </div>
+                        <div class="colors-modes">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="colors" id="color-auto" value="auto" checked>
+                                <label class="form-check-label" for="color-auto">Automatic</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="colors" id="color-custom" value="custom">
+                                <label class="form-check-label" for="color-custom">Custom</label>
+                            </div>
+                        </div>
+                        <div class="custom-colors mt-3 d-none">
+                            <h5>Sign</h5>
+                            <input type="color" class="form-control form-control-color" id="color-sign" value="#f11e33">
+                            <h5 class="mt-2">Background</h5>
+                            <input type="color" class="form-control form-control-color" id="color-background" value="#ffffff">
+                        </div>
+                    </div>
+                    <div class="form-group pt-4 pb-4">
+                        <h2>Size</h2>
+                        <div class="form-text fw-light fst-italic mb-2">Choose size of your lucky sign.</div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="size" id="size-1x1" value="1x1" checked>
+                            <label class="form-check-label" for="size-1x1">1 x 1</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="size" id="size-2x2" value="2x2">
+                            <label class="form-check-label" for="size-2x2">2 x 2</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="size" id="size-4x4" value="4x4">
+                            <label class="form-check-label" for="size-4x4">4 x 4</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button type="submit" class="draw btn btn-primary">Draw</button>
+                </div>
+                <div class="error text-danger"></div>
+            </form>
+            <div class="result d-flex justify-content-center"></div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="form.js"></script>
+        <script src="form.lucky-sign.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>
