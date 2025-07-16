@@ -32,6 +32,11 @@ class LuckySignForm extends Form {
         this.#form = form;
         this.#colors_modes = this.#form.querySelector('.colors-modes');
         this.#custom_colors = this.#form.querySelector('.custom-colors');
+
+        new AirDatepicker('#birth-date', {
+            locale: date_picker_locale,
+            autoClose: true
+        });
     }
 
     #registerListeners() {

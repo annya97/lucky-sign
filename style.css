@@ -12,6 +12,7 @@
     --color-background: #d9d9d9;
     --color-form: #ffffff;
     --color-separator: #e9ecef;
+    --color-calendar: #adb5bd;
 }
 
 body {
@@ -30,6 +31,23 @@ form {
 
 .form-group:not(:last-of-type) {
     border-bottom: 1px solid var(--color-separator);
+}
+
+.calendar-wrap {
+    position: relative;
+    width: 11rem;
+}
+
+#birth-date {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.bi-calendar {
+    position: absolute;
+    top: 0.625rem;
+    right: 0.75rem;
+    pointer-events: none;
+    fill: var(--color-calendar);
 }
 
 .custom-colors {
