@@ -38,7 +38,7 @@ class LuckySignForm extends Form {
         this.#listeners = {
             handleColorsModes: e => {
                 if (e.target.name === 'colors') {
-                    this.#custom_colors.classList.toggle('d-none', e.target.value !== 'custom');
+                    this.#custom_colors.classList.toggle('show', e.target.value === 'custom');
                 }
             }
         };

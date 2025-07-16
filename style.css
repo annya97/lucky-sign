@@ -31,3 +31,14 @@ form {
 .form-group:not(:last-of-type) {
     border-bottom: 1px solid var(--color-separator);
 }
+
+.custom-colors {
+    max-height: 0;
+    opacity: 0;
+    transition: max-height .5s ease-out, opacity .5s ease-out;
+}
+
+.custom-colors.show {
+    max-height: 10rem;
+    opacity: 1;
+}
