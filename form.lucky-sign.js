@@ -35,7 +35,8 @@ class LuckySignForm extends Form {
 
         new AirDatepicker('#birth-date', {
             locale: date_picker_locale,
-            autoClose: true
+            autoClose: true,
+            isMobile: 'ontouchstart' in window || navigator.maxTouchPoints > 0
         });
     }
 
