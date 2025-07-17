@@ -40,6 +40,7 @@ form {
 
 #birth-date {
     font-family: 'Courier New', Courier, monospace;
+    background-color: initial;
 }
 
 .bi-calendar {
