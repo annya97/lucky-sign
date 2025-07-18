@@ -54,14 +54,3 @@ form {
     pointer-events: none;
     fill: var(--color-calendar);
 }
-
-.custom-colors {
-    max-height: 0;
-    opacity: 0;
-    transition: max-height .5s ease-out, opacity .5s ease-out;
-}
-
-.custom-colors.show {
-    max-height: 10rem;
-    opacity: 1;
-}
