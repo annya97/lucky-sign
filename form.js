@@ -1,20 +1,5 @@
 class Form {
 
-    /**
-     * @type {HTMLFormElement}
-     */
-    #form;
-
-    /**
-     * @type {Object}
-     */
-    #listeners;
-
-    /**
-     * @type {HTMLButtonElement}
-     */
-    #submit_button;
-
     constructor(form) {
         if (!(form instanceof HTMLFormElement)) {
             throw new Error('Incorrect form element provided.');
@@ -26,19 +11,29 @@ class Form {
     }
 
     #init(form) {
-        this.#form = form;
-        this.#submit_button = this.#form.querySelector('button[type="submit"]');
+        this._form = form;
+        this._submit_button = this._form.querySelector('button[type="submit"]');
     }
 
     #registerListeners() {
-        this.#listeners = {
+        this._listeners = {
             submit: e => {
                 e.preventDefault();
+
+                if (this._validate()) {
+                    this._doAction();
+                }
             }
         };
     }
 
     #activateListeners() {
-        this.#submit_button.addEventListener('click', this.#listeners.submit);
+        this._submit_button.addEventListener('click', this._listeners.submit);
     }
+
+    _validate() {
+        return true;
+    }
+
+    _doAction() {}
 }

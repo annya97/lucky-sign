@@ -13,4 +13,12 @@ class LuckySignForm extends Form {
             isMobile: 'ontouchstart' in window || navigator.maxTouchPoints > 0
         });
     }
+
+    _validate() {
+        // TODO: Implement validation.
+    }
+
+    _doAction() {
+        // TODO: Implement action.
+    }
 }
