@@ -18,7 +18,7 @@
                         <h2>Date of birth</h2>
                         <div class="form-text fw-light fst-italic mb-2">Enter your date of birth.</div>
                         <div class="calendar-wrap">
-                            <input type="text" class="form-control" id="birth-date">
+                            <input type="text" class="form-control" name="birth_date" id="birth-date">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
                                 <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
                             </svg>
@@ -35,34 +35,34 @@
                         </div>
                         <div class="colors-modes">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="colors" id="color-auto" value="auto" data-bs-toggle="collapse" data-bs-target=".custom-colors.show" checked>
+                                <input class="form-check-input" type="radio" name="color_mode" id="color-auto" value="0" data-bs-toggle="collapse" data-bs-target=".custom-colors.show">
                                 <label class="form-check-label" for="color-auto">Automatic</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="colors" id="color-custom" value="custom" data-bs-toggle="collapse" data-bs-target=".custom-colors:not(.show)">
+                                <input class="form-check-input" type="radio" name="color_mode" id="color-custom" value="1" data-bs-toggle="collapse" data-bs-target=".custom-colors:not(.show)" checked>
                                 <label class="form-check-label" for="color-custom">Custom</label>
                             </div>
                         </div>
-                        <div class="custom-colors collapse">
+                        <div class="custom-colors collapse show">
                             <h5 class="pt-3">Sign</h5>
-                            <input type="color" class="form-control form-control-color" id="color-sign" value="#f11e33">
+                            <input type="color" class="form-control form-control-color" name="custom_color_sign" id="color-sign" value="#f11e33">
                             <h5 class="pt-3">Background</h5>
-                            <input type="color" class="form-control form-control-color" id="color-background" value="#ffffff">
+                            <input type="color" class="form-control form-control-color" name="custom_color_background" id="color-background" value="#ffffff">
                         </div>
                     </div>
                     <div class="form-group pt-4 pb-4">
                         <h2>Size</h2>
                         <div class="form-text fw-light fst-italic mb-2">Choose size of your lucky sign.</div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="size" id="size-1x1" value="1x1" checked>
+                            <input class="form-check-input" type="radio" name="size" id="size-1x1" value="0" checked>
                             <label class="form-check-label" for="size-1x1">1 x 1</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="size" id="size-2x2" value="2x2">
+                            <input class="form-check-input" type="radio" name="size" id="size-2x2" value="1">
                             <label class="form-check-label" for="size-2x2">2 x 2</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="size" id="size-4x4" value="4x4">
+                            <input class="form-check-input" type="radio" name="size" id="size-4x4" value="2">
                             <label class="form-check-label" for="size-4x4">4 x 4</label>
                         </div>
                     </div>
@@ -72,13 +72,17 @@
                 </div>
                 <div class="error text-danger"></div>
             </form>
-            <div class="result d-flex justify-content-center mb-4"></div>
+            <div id="result-wrap" class="d-none justify-content-center mb-4">
+                <div id="result" class="p-4"></div>
+            </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.6.0/air-datepicker.min.js"></script>
+        <script src="constants.js"></script>
         <script src="helpers.js"></script>
         <script src="form.js"></script>
         <script src="form.lucky-sign.js"></script>
+        <script src="grid.js"></script>
         <script src="script.js"></script>
     </body>
 </html>
