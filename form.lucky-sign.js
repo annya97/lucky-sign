@@ -19,8 +19,7 @@ class LuckySignForm extends Form {
     }
 
     _doAction() {
-        const form_data = new FormData(this._form);
-        const form_props = Object.fromEntries(form_data);
+        const form_props = Object.fromEntries(new FormData(this._form));
         const grid = new Grid(form_props);
 
         const result = document.getElementById('result');
