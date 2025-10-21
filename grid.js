@@ -1,10 +1,10 @@
 class Grid {
 
     #container;
-    #form_props;
+    #config;
 
-    constructor(form_props) {
-        this.#form_props = form_props;
+    constructor(config) {
+        this.#config = config;
 
         this.#makeGrid();
         this.#colorGrid();
@@ -40,7 +40,7 @@ class Grid {
 
         let mirror_times;
 
-        switch(Number(this.#form_props.size)) {
+        switch(Number(this.#config.size)) {
             case GRID_SIZE_1X1:
                 mirror_times = 0;
                 break;
@@ -58,7 +58,7 @@ class Grid {
     }
 
     #colorGrid() {
-        const numbers = this.#form_props.birth_date
+        const numbers = this.#config.birth_date
             .replace(/\D/g, '')
             .split('')
             .filter((num, i, arr) => arr.indexOf(num) === i)
@@ -66,17 +66,17 @@ class Grid {
 
         const cells = this.#container.querySelectorAll('td');
 
-        switch(Number(this.#form_props.color_mode)) {
+        switch(Number(this.#config.color_mode)) {
             case COLOR_MODE_AUTO:
                 console.warn('Automatic colors - to be implemented...');
                 break;
             case COLOR_MODE_CUSTOM:
                 for (const cell of cells) {
                     if (numbers.includes(Number(cell.dataset.value))) {
-                        cell.style.backgroundColor = this.#form_props.custom_color_sign;
+                        cell.style.backgroundColor = this.#config.custom_color_sign;
                     }
                     else {
-                        cell.style.backgroundColor = this.#form_props.custom_color_background;
+                        cell.style.backgroundColor = this.#config.custom_color_background;
                     }
                 }
                 break;
