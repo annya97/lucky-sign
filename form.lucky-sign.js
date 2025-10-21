@@ -15,20 +15,16 @@ class LuckySignForm extends Form {
     }
 
     _validate() {
-        return true;
+        return super._validate();
     }
 
     _doAction() {
+        super._doAction();
+
         const form_props = Object.fromEntries(new FormData(this._form));
         const grid = new Grid(form_props);
-
         const result = document.getElementById('result');
-        const result_wrap = document.getElementById('result-wrap');
 
-        result.innerHTML = '';
         result.appendChild(grid.getContainer());
-
-        result_wrap.classList.remove('d-none');
-        result_wrap.classList.add('d-flex');
     }
 }
