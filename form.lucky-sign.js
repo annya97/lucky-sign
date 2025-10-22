@@ -1,7 +1,11 @@
 class LuckySignForm extends Form {
 
+    #form;
+
     constructor(form) {
         super(form);
+
+        this.#form = form;
 
         this.#init();
     }
@@ -21,7 +25,7 @@ class LuckySignForm extends Form {
     _doAction() {
         super._doAction();
 
-        const form_props = Object.fromEntries(new FormData(this._form));
+        const form_props = Object.fromEntries(new FormData(this.#form));
         const grid = new Grid(form_props);
         const result = document.getElementById('result');
 
