@@ -4,5 +4,8 @@
 
 ---
 
-Example of automatic color generation:
-![Automatic colors](./automatic-colors.png)
+Personalized colors are generated based on your birth date, and they are seasonal!
+
+Preview:
+
+![Automatic colors](./images/automatic-colors.png)
