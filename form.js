@@ -54,8 +54,8 @@ class Form {
         const messages = [];
         const form_props = Object.fromEntries(new FormData(this.#form));
 
-        if (!luxon.DateTime.fromFormat(form_props.birth_date, 'dd.MM.yyyy.').isValid) {
-            messages.push('Please input valid date in format "dd.MM.yyyy."!');
+        if (!luxon.DateTime.fromFormat(form_props.birth_date, DATE_PICKER_LOCALE.dateFormat).isValid) {
+            messages.push(`Please input valid date in format "${DATE_PICKER_LOCALE.dateFormat}"!`);
         }
 
         return messages;
