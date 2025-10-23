@@ -27,27 +27,15 @@
                     <div class="form-group pt-4 pb-4">
                         <h2>Colors</h2>
                         <div class="form-text fw-light fst-italic mb-2">
-                            <div>You can choose colors for your lucky sign and its background:</div>
-                            <ul>
-                                <li>Automatic - both colors will be calculated from your date of birth.</li>
-                                <li>Custom - choose whatever colors you want.</li>
-                            </ul>
+                            <div>Choose colors for your lucky sign and its background.</div>
+                            <div>You can as well ✨personalize✨ them to match your date of birth.</div>
                         </div>
-                        <div class="colors-modes">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="color_mode" id="color-auto" value="0" data-bs-toggle="collapse" data-bs-target=".custom-colors.show">
-                                <label class="form-check-label" for="color-auto">Automatic</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="color_mode" id="color-custom" value="1" data-bs-toggle="collapse" data-bs-target=".custom-colors:not(.show)" checked>
-                                <label class="form-check-label" for="color-custom">Custom</label>
-                            </div>
-                        </div>
-                        <div class="custom-colors collapse show">
+                        <div class="colors">
+                            <button type="button" name="auto_colors" class="btn btn-outline-dark">✨ Personalize colors ✨</button>
                             <h5 class="pt-3">Sign</h5>
-                            <input type="color" class="form-control form-control-color" name="custom_color_sign" id="color-sign" value="#f11e33">
+                            <input type="color" class="form-control form-control-color" name="color_sign" id="color-sign" value="#f11e33">
                             <h5 class="pt-3">Background</h5>
-                            <input type="color" class="form-control form-control-color" name="custom_color_background" id="color-background" value="#ffffff">
+                            <input type="color" class="form-control form-control-color" name="color_background" id="color-background" value="#ffffff">
                         </div>
                     </div>
                     <div class="form-group pt-4 pb-4">
@@ -80,7 +68,8 @@
         <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.6.0/air-datepicker.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/luxon@3.7.2/build/global/luxon.min.js"></script>
         <script src="constants.js"></script>
-        <script src="helpers.js"></script>
+        <script src="helpers/arrays.js"></script>
+        <script src="helpers/colors.js"></script>
         <script src="form.js"></script>
         <script src="form.lucky-sign.js"></script>
         <script src="grid.js"></script>

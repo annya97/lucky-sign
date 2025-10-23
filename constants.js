@@ -12,5 +12,17 @@ const GRID_SIZE_1X1 = 0;
 const GRID_SIZE_2X2 = 1;
 const GRID_SIZE_4X4 = 2;
 
-const COLOR_MODE_AUTO = 0;
-const COLOR_MODE_CUSTOM = 1;
+const MONTHS = {
+    JANUARY:    1,
+    FEBRUARY:   2,
+    MARCH:      3,
+    APRIL:      4,
+    MAY:        5,
+    JUNE:       6,
+    JULY:       7,
+    AUGUST:     8,
+    SEPTEMBER:  9,
+    OCTOBER:    10,
+    NOVEMBER:   11,
+    DECEMBER:   12
+};

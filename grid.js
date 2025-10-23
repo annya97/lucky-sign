@@ -66,22 +66,13 @@ class Grid {
 
         const cells = this.#container.querySelectorAll('td');
 
-        switch(Number(this.#config.color_mode)) {
-            case COLOR_MODE_AUTO:
-                console.warn('Automatic colors - to be implemented...');
-                break;
-            case COLOR_MODE_CUSTOM:
-                for (const cell of cells) {
-                    if (numbers.includes(Number(cell.dataset.value))) {
-                        cell.style.backgroundColor = this.#config.custom_color_sign;
-                    }
-                    else {
-                        cell.style.backgroundColor = this.#config.custom_color_background;
-                    }
-                }
-                break;
-            default:
-                console.warn('No such color mode.');
+        for (const cell of cells) {
+            if (numbers.includes(Number(cell.dataset.value))) {
+                cell.style.backgroundColor = this.#config.color_sign;
+            }
+            else {
+                cell.style.backgroundColor = this.#config.color_background;
+            }
         }
     }
 
