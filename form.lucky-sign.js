@@ -43,6 +43,11 @@ class LuckySignForm extends Form {
                 this.#enableAutoColorsButton();
             },
             setAutoColors: () => {
+                if (!luxon.DateTime.fromFormat(this.#elements.birth_date.value, 'dd.MM.yyyy.').isValid) {
+                    alert('Please input valid date in format "dd.MM.yyyy." to get personalized colors!');
+                    return;
+                }
+
                 const [day, month, year] = this.#elements.birth_date.value.split('.');
 
                 const auto_colors = getAutoColors(day, month, year);
