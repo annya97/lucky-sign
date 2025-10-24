@@ -79,13 +79,12 @@ const getMainHsl = (day, month, year) => {
 
     const hue = (hue1 + diff * month_frac + 360) % 360;
 
-    let saturation = 80 + (day / 31) * 20;
-    let lightness = 60 + ((year % 100) / 99) * 15;
+    let saturation = 80 + (day / 31) * 15;
+    let lightness = 60 + ((year % 100) / 99) * 7;
 
-    // Saturation and lightness higher in summer.
+    // Saturation higher in summer.
     if (month >= MONTHS.JUNE && month <= MONTHS.AUGUST) {
         saturation += 5;
-        lightness -= 3;
     }
 
     return {
@@ -96,17 +95,21 @@ const getMainHsl = (day, month, year) => {
 }
 
 const getBackgroundHsl = (h, s, l, month) => {
-    let hue = h;
-
     // Saturation slightly higher than main, but capped.
     const saturation = clamp(s * 0.7 + 10, 40, 90);
 
     // Adaptive lightness boost.
     const boost = l < 60 ? 35 : 25;
-    const lightness = clamp(l + boost, 70, 95);
+
+    let lightness = clamp(l + boost, 70, 95);
+
+    // Lightness higher in some months.
+    if (month == MONTHS.FEBRUARY || month >= MONTHS.MAY && month <= MONTHS.AUGUST) {
+        lightness += 4;
+    }
 
     return {
-        h: hue,
+        h,
         s: saturation,
         l: lightness
     };
