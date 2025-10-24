@@ -84,8 +84,8 @@ const getMainHsl = (day, month, year) => {
 
     // Saturation and lightness higher in summer.
     if (month >= MONTHS.JUNE && month <= MONTHS.AUGUST) {
-        saturation += 10;
-        lightness += 5;
+        saturation += 5;
+        lightness -= 3;
     }
 
     return {
