@@ -48,8 +48,10 @@ class LuckySignForm extends Form {
                     return;
                 }
 
-                const [day, month, year] = this.#elements.birth_date.value.split('.');
-
+                const birth_date_parts = this.#elements.birth_date.value.split('.');
+                const day = Number(birth_date_parts[0]);
+                const month = Number(birth_date_parts[1]);
+                const year = Number(birth_date_parts[2]);
                 const auto_colors = getAutoColors(day, month, year);
 
                 this.#elements.color_sign.value = auto_colors.main;
