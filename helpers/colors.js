@@ -104,7 +104,7 @@ const getBackgroundHsl = (h, s, l, month) => {
     let lightness = clamp(l + boost, 70, 95);
 
     // Lightness higher in some months.
-    if (month == MONTHS.FEBRUARY || month >= MONTHS.MAY && month <= MONTHS.AUGUST) {
+    if (month === MONTHS.FEBRUARY || month >= MONTHS.MAY && month <= MONTHS.AUGUST) {
         lightness += 4;
     }
 
