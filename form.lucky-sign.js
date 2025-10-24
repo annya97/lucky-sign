@@ -25,7 +25,7 @@ class LuckySignForm extends Form {
         this.#elements.color_background = this.#form.querySelector('input[name="color_background"]');
         this.#elements.auto_colors = this.#form.querySelector('button[name="auto_colors"]');
 
-        new AirDatepicker('#birth-date', {
+        new AirDatepicker(this.#elements.birth_date, {
             locale: DATE_PICKER_LOCALE,
             autoClose: true,
             isMobile: 'ontouchstart' in window || navigator.maxTouchPoints > 0
