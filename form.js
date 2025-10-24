@@ -1,8 +1,22 @@
 class Form {
 
+    /**
+	 * Form element.
+	 *
+	 * @type {HTMLFormElement}
+	 */
     #form;
+
+    /**
+	 * Listeners of form.
+	 *
+	 * @type {Object}
+	 */
     #listeners;
 
+    /**
+	 * @param {HTMLFormElement} form  Form element.
+	 */
     constructor(form) {
         if (!(form instanceof HTMLFormElement)) {
             throw new Error('Incorrect form element provided.');
@@ -14,6 +28,9 @@ class Form {
         this.#activateListeners();
     }
 
+    /**
+	 * Register listeners of form.
+	 */
     #registerListeners() {
         this.#listeners = {
             submit: e => {
@@ -44,12 +61,20 @@ class Form {
         };
     }
 
+    /**
+	 * Activate listeners of form.
+	 */
     #activateListeners() {
         this.#form
             .querySelector('button[name="draw"]')
             .addEventListener('click', this.#listeners.submit);
     }
 
+    /**
+	 * Validate form on submission.
+     * 
+     * @returns {Array}  Array of messages if validation fails, otherwise empty array.
+	 */
     _validate() {
         const messages = [];
         const form_props = Object.fromEntries(new FormData(this.#form));
@@ -61,5 +86,9 @@ class Form {
         return messages;
     }
 
+    /**
+	 * Action to perform after successful validation.
+     * Must be implemented in child class.
+	 */
     _doAction() {}
 }

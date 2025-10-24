@@ -1,8 +1,22 @@
 class Grid {
 
+    /**
+	 * Generated grid as table element.
+	 *
+	 * @type {HTMLTableElement}
+	 */
     #container;
+
+    /**
+	 * Configuration.
+	 *
+	 * @type {Object}
+	 */
     #config;
 
+    /**
+	 * @param {Object} config  Configuration.
+	 */
     constructor(config) {
         this.#config = config;
 
@@ -10,6 +24,9 @@ class Grid {
         this.#colorGrid();
     }
 
+    /**
+	 * Make grid as table element based on generated two-dimensional array.
+	 */
     #makeGrid() {
         const table = document.createElement('table');
         const tbody = document.createElement('tbody');
@@ -34,6 +51,11 @@ class Grid {
         this.#container = table;
     }
 
+    /**
+	 * Generate array from which to make grid.
+     * 
+     * @returns {Array}  Two-dimensional array.
+	 */
     #generateArray() {
         const num_min = 1;
         const num_max = 9;
@@ -57,6 +79,9 @@ class Grid {
         return generateMirroredArray(num_min, num_max, mirror_times, mirror_times);
     }
 
+    /**
+	 * Color grid cells based on parameters from configuration.
+	 */
     #colorGrid() {
         const numbers = this.#config.birth_date
             .replace(/\D/g, '')
@@ -76,6 +101,11 @@ class Grid {
         }
     }
 
+    /**
+	 * Get container element.
+     * 
+     * @returns {HTMLTableElement}
+	 */
     getContainer() {
         return this.#container;
     }

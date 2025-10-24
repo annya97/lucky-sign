@@ -1,3 +1,13 @@
+/**
+ * Generates two-dimensional array, mirrored if necessary.
+ * 
+ * @param {number} min       Number from which to start generating.
+ * @param {number} max       Number to which generate.
+ * @param {number} mirror_x  How many times to mirror horizontally.
+ * @param {number} mirror_y  How many times to mirror vertically.
+ * 
+ * @returns {Array}  Two-dimensional array.
+ */
 const generateMirroredArray = (min, max, mirror_x, mirror_y) => {
     // Step 1: Generate base array.
     const base = [];
@@ -12,7 +22,13 @@ const generateMirroredArray = (min, max, mirror_x, mirror_y) => {
         base.push(row);
     }
 
-    // Mirror array horizontally 'mirror_x' times.
+    /**
+     * Mirror array horizontally 'mirror_x' times.
+     * 
+     * @param {Array} arr  Array to mirror.
+     * 
+     * @returns {Array}
+     */
     const mirrorHorizontal = arr => {
         let result = arr.map(row => [...row]);
 
@@ -23,7 +39,13 @@ const generateMirroredArray = (min, max, mirror_x, mirror_y) => {
         return result;
     }
 
-    // Mirror array vertically 'mirror_y' times.
+    /**
+     * Mirror array vertically 'mirror_y' times.
+     * 
+     * @param {Array} arr  Array to mirror.
+     * 
+     * @returns {Array}
+     */
     const mirrorVertical = arr => {
         let result = [...arr];
 

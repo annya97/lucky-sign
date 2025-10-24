@@ -1,3 +1,28 @@
+/**
+ * Object that contains auto generated colors.
+ * @typedef {Object} AutoColors
+ * @property {string} main        Main color hex.
+ * @property {string} background  Background color hex.
+ */
+
+/**
+ * Object that contains hsl color components.
+ * @typedef {Object} Hsl
+ * @property {number} h  Hue [0..360].
+ * @property {number} s  Saturation [0..100]%.
+ * @property {number} l  Lightness [0..100]%.
+ */
+
+
+/**
+ * Generates colors - main and background - based on date.
+ * 
+ * @param {number} day    Day of month [1..31].
+ * @param {number} month  Month of year [1..12].
+ * @param {number} year   Year (any).
+ * 
+ * @returns {AutoColors}
+ */
 const getAutoColors = (day, month, year) => {
     const main_hsl = getMainHsl(day, month, year);
     const background_hsl = getBackgroundHsl(main_hsl.h, main_hsl.s, main_hsl.l, month);
@@ -8,20 +33,57 @@ const getAutoColors = (day, month, year) => {
     };
 }
 
-const clamp = (n, a, b) => {
-    return Math.max(a, Math.min(b, n));
+/**
+ * Limits the number so it stays within given range.
+ * If the number is below minimum, the minimum is returned;
+ * if the number is above maximum, the maximum is returned;
+ * otherwise the number itself is returned.
+ * 
+ * @param {number} num  The number to constrain.
+ * @param {number} min  Lower bound.
+ * @param {number} max  Upper bound.
+ * 
+ * @returns {number}
+ */
+const clamp = (num, min, max) => {
+    return Math.max(min, Math.min(max, num));
 }
 
-const componentToHex = c => {
-    const v = clamp(Math.round(c), 0, 255);
+/**
+ * Generates hex part from given rgb component.
+ * 
+ * @param {number} comp  Component from rgb.
+ * 
+ * @returns {string}  Hex part.
+ */
+const componentToHex = comp => {
+    const num = clamp(Math.round(comp), 0, 255);
 
-    return `${v < 16 ? '0' : ''}${v.toString(16)}`;
+    return `${num < 16 ? '0' : ''}${num.toString(16)}`;
 }
 
+/**
+ * Generates hex from given rgb.
+ * 
+ * @param {number} r  Red [0..255].
+ * @param {number} g  Green [0..255].
+ * @param {number} b  Blue [0..255].
+ * 
+ * @returns {string}  Hex in format "#rrggbb".
+ */
 const rgbToHex = (r, g, b) => {
     return `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
 }
 
+/**
+ * Generates hex from given hsl.
+ * 
+ * @param {number} h  Hue [0..360].
+ * @param {number} s  Saturation [0..100]%.
+ * @param {number} l  Lightness [0..100]%.
+ * 
+ * @returns {string}  Hex in format "#rrggbb".
+ */
 const hslToHex = (h, s, l) => {
     s /= 100;
     l /= 100;
@@ -60,6 +122,15 @@ const hslToHex = (h, s, l) => {
     );
 }
 
+/**
+ * Generates main color hsl from given date.
+ * 
+ * @param {number} day    Day of month [1..31].
+ * @param {number} month  Month of year [1..12].
+ * @param {number} year   Year (any).
+ * 
+ * @returns {Hsl}
+ */
 const getMainHsl = (day, month, year) => {
     const base_hues = [210, 190, 160, 130, 100, 75, 55, 40, 25, 15, 330, 260];
     const month_index = clamp(month - 1, 0, 11);
@@ -94,6 +165,16 @@ const getMainHsl = (day, month, year) => {
     };
 }
 
+/**
+ * Generates background color hsl from given hsl.
+ * 
+ * @param {number} h      Hue [0..360].
+ * @param {number} s      Saturation [0..100]%.
+ * @param {number} l      Lightness [0..100]%.
+ * @param {number} month  Month of year [1..12].
+ * 
+ * @returns {Hsl}
+ */
 const getBackgroundHsl = (h, s, l, month) => {
     // Saturation slightly higher than main, but capped.
     const saturation = clamp(s * 0.7 + 10, 40, 90);

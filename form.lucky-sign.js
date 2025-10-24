@@ -1,7 +1,24 @@
 class LuckySignForm extends Form {
 
+    /**
+	 * Form element.
+	 *
+	 * @type {HTMLFormElement}
+	 */
     #form;
+
+    /**
+	 * Listeners of form.
+	 *
+	 * @type {Object}
+	 */
     #listeners;
+
+    /**
+	 * Elements of form.
+	 *
+	 * @type {Object}
+	 */
     #elements = {
         birth_date: null,
         color_sign: null,
@@ -9,6 +26,9 @@ class LuckySignForm extends Form {
         auto_colors: null
     };
 
+    /**
+	 * @param {HTMLFormElement} form  Form element.
+	 */
     constructor(form) {
         super(form);
 
@@ -19,6 +39,9 @@ class LuckySignForm extends Form {
         this.#activateListeners();
     }
 
+    /**
+	 * Initialize form.
+	 */
     #init() {
         this.#elements.birth_date = this.#form.querySelector('input[name="birth_date"]');
         this.#elements.color_sign = this.#form.querySelector('input[name="color_sign"]');
@@ -34,6 +57,9 @@ class LuckySignForm extends Form {
         this.#enableAutoColorsButton();
     }
 
+    /**
+	 * Register listeners of form.
+	 */
     #registerListeners() {
         this.#listeners = {
             birthDateChange: () => {
@@ -62,6 +88,9 @@ class LuckySignForm extends Form {
         };
     }
 
+    /**
+	 * Activate listeners of form.
+	 */
     #activateListeners() {
         this.#elements.birth_date.addEventListener('change', this.#listeners.birthDateChange);
         this.#elements.color_sign.addEventListener('change', this.#listeners.colorChange);
@@ -69,6 +98,11 @@ class LuckySignForm extends Form {
         this.#elements.auto_colors.addEventListener('click', this.#listeners.setAutoColors);
     }
 
+    /**
+	 * Toggle state of auto colors button.
+     * 
+     * @param {boolean} enable  Whether to enable or disable button.
+	 */
     #enableAutoColorsButton(enable = true) {
         this.#elements.auto_colors.disabled = !enable;
         this.#elements.auto_colors.textContent = enable
@@ -76,10 +110,18 @@ class LuckySignForm extends Form {
             : '✨ Colors are personalized ✨';
     }
 
+    /**
+	 * Validate form on submission.
+     * 
+     * @returns {Array}  Array of messages if validation fails, otherwise empty array.
+	 */
     _validate() {
         return super._validate();
     }
 
+    /**
+	 * Action to perform after successful validation.
+	 */
     _doAction() {
         super._doAction();
 
