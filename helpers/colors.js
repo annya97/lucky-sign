@@ -98,14 +98,6 @@ const getMainHsl = (day, month, year) => {
 const getBackgroundHsl = (h, s, l, month) => {
     let hue = h;
 
-    // Seasonal hue shift: winter - warmer, summer - cooler.
-    if (month <= MONTHS.FEBRUARY || month === MONTHS.DECEMBER) {
-        hue = (h + 10) % 360;
-    }
-    else if (month >= MONTHS.JUNE && month <= MONTHS.AUGUST) {
-        hue = (h - 10 + 360) % 360;
-    }
-
     // Saturation slightly higher than main, but capped.
     const saturation = clamp(s * 0.7 + 10, 40, 90);
 
