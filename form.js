@@ -46,7 +46,7 @@ class Form {
 
     #activateListeners() {
         this.#form
-            .querySelector('button[type="submit"]')
+            .querySelector('button[name="draw"]')
             .addEventListener('click', this.#listeners.submit);
     }
 
