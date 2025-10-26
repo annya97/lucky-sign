@@ -45,7 +45,7 @@ form {
 
 input[name="birth_date"] {
     font-family: 'Courier New', Courier, monospace;
-    background-color: initial;
+    background-color: initial !important;
 }
 
 .bi-calendar {
