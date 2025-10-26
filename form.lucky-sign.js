@@ -116,7 +116,14 @@ class LuckySignForm extends Form {
      * @returns {Array}  Array of messages if validation fails, otherwise empty array.
 	 */
     _validate() {
-        return super._validate();
+        const messages = super._validate();
+        const form_props = Object.fromEntries(new FormData(this.#form));
+
+        if (!luxon.DateTime.fromFormat(form_props.birth_date, DATE_PICKER_LOCALE.dateFormat).isValid) {
+            messages.push(`Please input valid date in format "${DATE_PICKER_LOCALE.dateFormat}"!`);
+        }
+
+        return messages;
     }
 
     /**
