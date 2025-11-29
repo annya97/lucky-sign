@@ -14,6 +14,7 @@
     --color-background: #d9d9d9;
     --color-grid-border: #ced4da;
     --color-separator: #e9ecef;
+    --title-gradient: 100deg, #4f9eec, #92ef4c, #f1e34a, #fa7141;
 }
 
 body {
@@ -23,7 +24,10 @@ body {
 
 h1 {
     font-family: GreatVibes, sans-serif;
-    background: linear-gradient(100deg, #4f9eec, #92ef4c, #f1e34a, #fa7141);
+    background: -webkit-linear-gradient(var(--title-gradient));
+    background: -o-linear-gradient(var(--title-gradient));
+    background: -moz-linear-gradient(var(--title-gradient));
+    background: linear-gradient(var(--title-gradient));
     background-clip: text;
     color: transparent;
 }
