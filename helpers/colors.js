@@ -13,13 +13,27 @@
  * @property {number} l  Lightness [0..100]%.
  */
 
+/**
+ * Object that contains rgb color components.
+ * @typedef {Object} Rgb
+ * @property {number} r  Red [0..255].
+ * @property {number} g  Green [0..255].
+ * @property {number} b  Blue [0..255].
+ */
+
+/**
+ * Object that contains day, month and year.
+ * @typedef {Object} DayMonthYear
+ * @property {number} day    Day of month [1..31].
+ * @property {number} month  Month of year [1..12].
+ * @property {number} year   Year (any).
+ */
+
 
 /**
  * Gets colors - main and background - based on params.
  * 
- * @param {number} day    Day of month [1..31].
- * @param {number} month  Month of year [1..12].
- * @param {number} year   Year (any).
+ * @param {DayMonthYear}
  * @param {string} name   Full name (optional).
  * 
  * @returns {AutoColors}
@@ -27,15 +41,13 @@
 const getAutoColors = ({day, month, year}, name = null) => {
     return name !== null
         ? getDateNameColors({day, month, year}, name)
-        : getSeasonalColors(day, month, year);
+        : getSeasonalColors({day, month, year});
 }
 
 /**
  * Generates colors - main and background - based on date and name.
  * 
- * @param {number} day    Day of month [1..31].
- * @param {number} month  Month of year [1..12].
- * @param {number} year   Year (any).
+ * @param {DayMonthYear}
  * @param {string} name   Full name.
  * 
  * @returns {AutoColors}
@@ -98,11 +110,11 @@ const getDateNameColors = ({day, month, year}, name) => {
     if (name_number_cumulative === date_number_cumulative) {
         const name_number_hsl = hexToHsl(name_number_hex);
         name_number_hsl.l = clamp(name_number_hsl.l + 10, 0, 100);
-        name_number_hex = hslToHex(name_number_hsl.h, name_number_hsl.s, name_number_hsl.l);
+        name_number_hex = hslToHex(name_number_hsl);
 
         const date_number_hsl = hexToHsl(date_number_hex);
         date_number_hsl.l = clamp(date_number_hsl.l - 10, 0, 100);
-        date_number_hex = hslToHex(date_number_hsl.h, date_number_hsl.s, date_number_hsl.l);
+        date_number_hex = hslToHex(date_number_hsl);
     }
 
     return {
@@ -114,19 +126,17 @@ const getDateNameColors = ({day, month, year}, name) => {
 /**
  * Generates seasonal colors - main and background - based on date.
  * 
- * @param {number} day    Day of month [1..31].
- * @param {number} month  Month of year [1..12].
- * @param {number} year   Year (any).
+ * @param {DayMonthYear}
  * 
  * @returns {AutoColors}
  */
-const getSeasonalColors = (day, month, year) => {
-    const main_hsl = getMainHslSeasonal(day, month, year);
-    const background_hsl = getBackgroundHslSeasonal(main_hsl.h, main_hsl.s, main_hsl.l, month);
+const getSeasonalColors = ({day, month, year}) => {
+    const main_hsl = getMainHslSeasonal({day, month, year});
+    const background_hsl = getBackgroundHslSeasonal(main_hsl, month);
 
     return {
-        main: hslToHex(main_hsl.h, main_hsl.s, main_hsl.l),
-        background: hslToHex(background_hsl.h, background_hsl.s, background_hsl.l)
+        main: hslToHex(main_hsl),
+        background: hslToHex(background_hsl)
     };
 }
 
@@ -176,13 +186,11 @@ const componentToHex = comp => {
 /**
  * Generates hex from given rgb.
  * 
- * @param {number} r  Red [0..255].
- * @param {number} g  Green [0..255].
- * @param {number} b  Blue [0..255].
+ * @param {Rgb}
  * 
  * @returns {string}  Hex in format "#rrggbb".
  */
-const rgbToHex = (r, g, b) => {
+const rgbToHex = ({r, g, b}) => {
     return `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
 }
 
@@ -191,7 +199,7 @@ const rgbToHex = (r, g, b) => {
  * 
  * @param {string} hex  Hex in format "#rrggbb".
  * 
- * @returns {Object}  Rgb components.
+ * @returns {Rgb}
  */
 const hexToRgb = hex => {
     hex = hex.replace(/^#/, '');
@@ -206,13 +214,11 @@ const hexToRgb = hex => {
 /**
  * Generates hex from given hsl.
  * 
- * @param {number} h  Hue [0..360].
- * @param {number} s  Saturation [0..100]%.
- * @param {number} l  Lightness [0..100]%.
+ * @param {Hsl}
  * 
  * @returns {string}  Hex in format "#rrggbb".
  */
-const hslToHex = (h, s, l) => {
+const hslToHex = ({h, s, l}) => {
     s /= 100;
     l /= 100;
 
@@ -243,11 +249,11 @@ const hslToHex = (h, s, l) => {
 
     const m = l - c / 2;
 
-    return rgbToHex(
-        (r + m) * 255,
-        (g + m) * 255,
-        (b + m) * 255
-    );
+    return rgbToHex({
+        r: (r + m) * 255,
+        g: (g + m) * 255,
+        b: (b + m) * 255
+    });
 }
 
 /**
@@ -307,13 +313,11 @@ const hexToHsl = hex => {
 /**
  * Generates seasonal main color hsl from given date.
  * 
- * @param {number} day    Day of month [1..31].
- * @param {number} month  Month of year [1..12].
- * @param {number} year   Year (any).
+ * @param {DayMonthYear}
  * 
  * @returns {Hsl}
  */
-const getMainHslSeasonal = (day, month, year) => {
+const getMainHslSeasonal = ({day, month, year}) => {
     const base_hues = [210, 190, 160, 130, 100, 75, 55, 40, 25, 15, 330, 260];
     const month_index = clamp(month - 1, 0, 11);
     const next_index = (month_index + 1) % 12;
@@ -350,14 +354,12 @@ const getMainHslSeasonal = (day, month, year) => {
 /**
  * Generates seasonal background color hsl from given hsl.
  * 
- * @param {number} h      Hue [0..360].
- * @param {number} s      Saturation [0..100]%.
- * @param {number} l      Lightness [0..100]%.
+ * @param {Hsl}
  * @param {number} month  Month of year [1..12].
  * 
  * @returns {Hsl}
  */
-const getBackgroundHslSeasonal = (h, s, l, month) => {
+const getBackgroundHslSeasonal = ({h, s, l}, month) => {
     // Saturation slightly higher than main, but capped.
     const saturation = clamp(s * 0.7 + 10, 40, 90);
 
