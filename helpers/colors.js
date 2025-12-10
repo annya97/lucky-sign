@@ -84,15 +84,30 @@ const getDateNameColors = ({day, month, year}, name) => {
         }, 0);
 
     const name_number_cumulative = getSumOfDigits(name_number);
+    let name_number_hex = colors.get(name_number_cumulative);
 
     const date_number = [...`${day}${month}${year}`]
         .reduce((acc, curr) => acc + Number(curr), 0);
 
     const date_number_cumulative = getSumOfDigits(date_number);
+    let date_number_hex = colors.get(date_number_cumulative);
+
+    // If numbers are same - colors are same, so:
+    // increase name color lightness and
+    // decrease date color lightness.
+    if (name_number_cumulative === date_number_cumulative) {
+        const name_number_hsl = hexToHsl(name_number_hex);
+        name_number_hsl.l = clamp(name_number_hsl.l + 10, 0, 100);
+        name_number_hex = hslToHex(name_number_hsl.h, name_number_hsl.s, name_number_hsl.l);
+
+        const date_number_hsl = hexToHsl(date_number_hex);
+        date_number_hsl.l = clamp(date_number_hsl.l - 10, 0, 100);
+        date_number_hex = hslToHex(date_number_hsl.h, date_number_hsl.s, date_number_hsl.l);
+    }
 
     return {
-        main: colors.get(date_number_cumulative),
-        background: colors.get(name_number_cumulative)
+        main: date_number_hex,
+        background: name_number_hex
     };
 }
 
@@ -172,6 +187,23 @@ const rgbToHex = (r, g, b) => {
 }
 
 /**
+ * Generates rgb from given hex.
+ * 
+ * @param {string} hex  Hex in format "#rrggbb".
+ * 
+ * @returns {Object}  Rgb components.
+ */
+const hexToRgb = hex => {
+    hex = hex.replace(/^#/, '');
+
+    return {
+        r: parseInt(hex.slice(0, 2), 16) / 255,
+        g: parseInt(hex.slice(2, 4), 16) / 255,
+        b: parseInt(hex.slice(4, 6), 16) / 255
+    };
+}
+
+/**
  * Generates hex from given hsl.
  * 
  * @param {number} h  Hue [0..360].
@@ -216,6 +248,60 @@ const hslToHex = (h, s, l) => {
         (g + m) * 255,
         (b + m) * 255
     );
+}
+
+/**
+ * Generates hsl from given hex.
+ * 
+ * @param {string} hex  Hex in format "#rrggbb".
+ * 
+ * @returns {Hsl}
+ */
+const hexToHsl = hex => {
+    hex = hex.replace(/^#/, '');
+
+    const {r, g, b} = hexToRgb(hex);
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l;
+
+    // Lightness.
+    l = (max + min) / 2;
+
+    if (max === min) {
+        // Achromatic.
+        h = s = 0;
+    }
+    else {
+        const d = max - min;
+
+        // Saturation.
+        s = l > 0.5
+            ? d / (2 - max - min)
+            : d / (max + min);
+
+        // Hue.
+        switch (max) {
+            case r:
+                h = ((g - b) / d + (g < b ? 6 : 0));
+                break;
+            case g:
+                h = ((b - r) / d + 2);
+                break;
+            case b:
+                h = ((r - g) / d + 4);
+                break;
+        }
+
+        h /= 6;
+    }
+
+    return {
+        h: Math.round(h * 360),
+        s: Math.round(s * 100),
+        l: Math.round(l * 100)
+    };
 }
 
 /**
