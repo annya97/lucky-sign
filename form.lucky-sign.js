@@ -94,7 +94,7 @@ class LuckySignForm extends Form {
                 const month = Number(birth_date_parts[1]);
                 const year = Number(birth_date_parts[2]);
 
-                switch(e.target) {
+                switch (e.target) {
                     case this.#elements.auto_colors_name:
                         if (this.#elements.full_name.value.trim() === '') {
                             alert('Please input your full name to get personalized colors!');

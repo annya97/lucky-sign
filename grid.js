@@ -62,7 +62,7 @@ class Grid {
 
         let mirror_times;
 
-        switch(Number(this.#config.size)) {
+        switch (Number(this.#config.size)) {
             case GRID_SIZE_1X1:
                 mirror_times = 0;
                 break;
