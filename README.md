@@ -4,8 +4,14 @@
 
 ---
 
-Personalized colors are generated based on your birth date, and they are seasonal!
+You can choose to personalize colors too!
 
-Preview:
+That can be done in two ways:
 
-![Automatic colors](./images/automatic-colors.png)
+1) By full name and birth date (numerological)
+
+![Automatic colors](./images/colors-numerological.png)
+
+2) By birth date only (seasonal)
+
+![Automatic colors](./images/colors-seasonal.png)
