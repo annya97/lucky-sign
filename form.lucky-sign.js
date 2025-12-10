@@ -96,12 +96,16 @@ class LuckySignForm extends Form {
 
                 switch (e.target) {
                     case this.#elements.auto_colors_name:
-                        if (this.#elements.full_name.value.trim() === '') {
+                        const name_letters = [...this.#elements.full_name.value.toLowerCase()]
+                            .map(char => REPLACEABLE_LETTERS.get(char) || char)
+                            .filter(char => ALPHABET.has(char));
+
+                        if (name_letters.length === 0) {
                             alert('Please input your full name to get personalized colors!');
                             return;
                         }
 
-                        const auto_colors_by_name = getAutoColors({day, month, year}, this.#elements.full_name.value);
+                        const auto_colors_by_name = getAutoColors({day, month, year}, name_letters);
 
                         this.#elements.color_sign.value = auto_colors_by_name.main;
                         this.#elements.color_background.value = auto_colors_by_name.background;

@@ -48,14 +48,12 @@ const getAutoColors = ({day, month, year}, name = null) => {
  * Generates colors - main and background - based on date and name.
  * 
  * @param {DayMonthYear}
- * @param {string} name   Full name.
+ * @param {string[]} name_letters  All valid letters of name.
  * 
  * @returns {AutoColors}
  */
-const getDateNameColors = ({day, month, year}, name) => {
-    const name_number = [...name.toLowerCase()]
-        .map(char => REPLACEABLE_LETTERS.get(char) || char)
-        .filter(char => ALPHABET.has(char))
+const getDateNameColors = ({day, month, year}, name_letters) => {
+    const name_number = name_letters
         .reduce((acc, curr) => {
             const index = [...ALPHABET].indexOf(curr);
             const value = index % 9 + 1;
