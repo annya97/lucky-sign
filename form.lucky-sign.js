@@ -20,10 +20,14 @@ class LuckySignForm extends Form {
 	 * @type {Object}
 	 */
     #elements = {
+        full_name: null,
         birth_date: null,
         color_sign: null,
         color_background: null,
-        auto_colors: null
+        auto_colors_container: null,
+        auto_colors_selected: null,
+        auto_colors_name: null,
+        auto_colors_date: null
     };
 
     /**
@@ -43,10 +47,14 @@ class LuckySignForm extends Form {
 	 * Initialize form.
 	 */
     #init() {
+        this.#elements.full_name = this.#form.querySelector('input[name="full_name"]');
         this.#elements.birth_date = this.#form.querySelector('input[name="birth_date"]');
         this.#elements.color_sign = this.#form.querySelector('input[name="color_sign"]');
         this.#elements.color_background = this.#form.querySelector('input[name="color_background"]');
-        this.#elements.auto_colors = this.#form.querySelector('button[name="auto_colors"]');
+        this.#elements.auto_colors_container = this.#form.querySelector('#auto_colors');
+        this.#elements.auto_colors_name = this.#form.querySelector('button[name="auto_colors_name"]');
+        this.#elements.auto_colors_date = this.#form.querySelector('button[name="auto_colors_date"]');
+        this.#elements.auto_colors_all = [this.#elements.auto_colors_name, this.#elements.auto_colors_date];
 
         new AirDatepicker(this.#elements.birth_date, {
             locale: DATE_PICKER_LOCALE,
@@ -54,7 +62,7 @@ class LuckySignForm extends Form {
             isMobile: 'ontouchstart' in window || navigator.maxTouchPoints > 0
         });
 
-        this.#enableAutoColorsButton();
+        this.#toggleAutoColorsButtons();
     }
 
     /**
@@ -62,13 +70,20 @@ class LuckySignForm extends Form {
 	 */
     #registerListeners() {
         this.#listeners = {
+            fullNameChange: () => {
+                this.#toggleAutoColorsButtons();
+            },
             birthDateChange: () => {
-                this.#enableAutoColorsButton();
+                this.#toggleAutoColorsButtons();
             },
             colorChange: () => {
-                this.#enableAutoColorsButton();
+                this.#toggleAutoColorsButtons();
             },
-            setAutoColors: () => {
+            setAutoColors: e => {
+                if (e.target === this.#elements.auto_colors_selected) {
+                    return;
+                }
+
                 if (!luxon.DateTime.fromFormat(this.#elements.birth_date.value, DATE_PICKER_LOCALE.dateFormat).isValid) {
                     alert(`Please input valid date in format "${DATE_PICKER_LOCALE.dateFormat}" to get personalized colors!`);
                     return;
@@ -78,12 +93,32 @@ class LuckySignForm extends Form {
                 const day = Number(birth_date_parts[0]);
                 const month = Number(birth_date_parts[1]);
                 const year = Number(birth_date_parts[2]);
-                const auto_colors = getAutoColors(day, month, year);
 
-                this.#elements.color_sign.value = auto_colors.main;
-                this.#elements.color_background.value = auto_colors.background;
+                switch(e.target) {
+                    case this.#elements.auto_colors_name:
+                        if (this.#elements.full_name.value.trim() === '') {
+                            alert('Please input your full name to get personalized colors!');
+                            return;
+                        }
 
-                this.#enableAutoColorsButton(false);
+                        const auto_colors_by_name = getAutoColors({day, month, year}, this.#elements.full_name.value);
+
+                        this.#elements.color_sign.value = auto_colors_by_name.main;
+                        this.#elements.color_background.value = auto_colors_by_name.background;
+
+                        this.#toggleAutoColorsButtons(this.#elements.auto_colors_name);
+
+                        break;
+                    case this.#elements.auto_colors_date:
+                        const auto_colors_by_date = getAutoColors({day, month, year});
+
+                        this.#elements.color_sign.value = auto_colors_by_date.main;
+                        this.#elements.color_background.value = auto_colors_by_date.background;
+
+                        this.#toggleAutoColorsButtons(this.#elements.auto_colors_date);
+
+                        break;
+                }
             }
         };
     }
@@ -92,22 +127,30 @@ class LuckySignForm extends Form {
 	 * Activate listeners of form.
 	 */
     #activateListeners() {
+        this.#elements.full_name.addEventListener('input', this.#listeners.fullNameChange);
         this.#elements.birth_date.addEventListener('change', this.#listeners.birthDateChange);
-        this.#elements.color_sign.addEventListener('change', this.#listeners.colorChange);
-        this.#elements.color_background.addEventListener('change', this.#listeners.colorChange);
-        this.#elements.auto_colors.addEventListener('click', this.#listeners.setAutoColors);
+        this.#elements.color_sign.addEventListener('input', this.#listeners.colorChange);
+        this.#elements.color_background.addEventListener('input', this.#listeners.colorChange);
+        this.#elements.auto_colors_container.addEventListener('click', this.#listeners.setAutoColors);
     }
 
     /**
-	 * Toggle state of auto colors button.
+	 * Toggle states of auto colors buttons.
      * 
-     * @param {boolean} enable  Whether to enable or disable button.
+     * @param {HTMLButtonElement} selected  Selected button.
 	 */
-    #enableAutoColorsButton(enable = true) {
-        this.#elements.auto_colors.disabled = !enable;
-        this.#elements.auto_colors.textContent = enable
-            ? '✨ Personalize colors ✨'
-            : '✨ Colors are personalized ✨';
+    #toggleAutoColorsButtons(selected = null) {
+        for (const button of this.#elements.auto_colors_all) {
+            button.disabled = false;
+            button.textContent = button.dataset.textInitial;
+        }
+
+        if (selected !== null && this.#elements.auto_colors_selected !== selected) {
+            selected.disabled = true;
+            selected.textContent = selected.dataset.textSelected;
+        }
+
+        this.#elements.auto_colors_selected = selected;
     }
 
     /**
@@ -118,6 +161,10 @@ class LuckySignForm extends Form {
     _validate() {
         const messages = super._validate();
         const form_props = Object.fromEntries(new FormData(this.#form));
+
+        if (form_props.full_name.trim() === '') {
+            messages.push('Please input your full name!');
+        }
 
         if (!luxon.DateTime.fromFormat(form_props.birth_date, DATE_PICKER_LOCALE.dateFormat).isValid) {
             messages.push(`Please input valid date in format "${DATE_PICKER_LOCALE.dateFormat}"!`);
