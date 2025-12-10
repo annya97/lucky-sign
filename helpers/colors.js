@@ -53,56 +53,24 @@ const getAutoColors = ({day, month, year}, name = null) => {
  * @returns {AutoColors}
  */
 const getDateNameColors = ({day, month, year}, name) => {
-    const alphabet = new Set([
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-        'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-        's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-    ]);
-
-    const replaceable_letters = new Map([
-        ['ā', 'a'],
-        ['č', 'c'],
-        ['ē', 'e'],
-        ['ģ', 'g'],
-        ['ī', 'i'],
-        ['ķ', 'k'],
-        ['ļ', 'l'],
-        ['ņ', 'n'],
-        ['š', 's'],
-        ['ū', 'u'],
-        ['ž', 'z']
-    ]);
-
-    const colors = new Map([
-        [1, '#D32F2F'],
-        [2, '#F57C00'],
-        [3, '#FFE04A'],
-        [4, '#388E3C'],
-        [5, '#0288D1'],
-        [6, '#3949AB'],
-        [7, '#A23BBC'],
-        [8, '#E8508F'],
-        [9, '#D8B848']
-    ]);
-
     const name_number = [...name.toLowerCase()]
-        .map(char => replaceable_letters.get(char) || char)
-        .filter(char => alphabet.has(char))
+        .map(char => REPLACEABLE_LETTERS.get(char) || char)
+        .filter(char => ALPHABET.has(char))
         .reduce((acc, curr) => {
-            const index = [...alphabet].indexOf(curr);
+            const index = [...ALPHABET].indexOf(curr);
             const value = index % 9 + 1;
 
             return acc + value;
         }, 0);
 
     const name_number_cumulative = getSumOfDigits(name_number);
-    let name_number_hex = colors.get(name_number_cumulative);
+    let name_number_hex = COLORS_OF_NUMBERS.get(name_number_cumulative);
 
     const date_number = [...`${day}${month}${year}`]
         .reduce((acc, curr) => acc + Number(curr), 0);
 
     const date_number_cumulative = getSumOfDigits(date_number);
-    let date_number_hex = colors.get(date_number_cumulative);
+    let date_number_hex = COLORS_OF_NUMBERS.get(date_number_cumulative);
 
     // If numbers are same - colors are same, so:
     // increase name color lightness and
