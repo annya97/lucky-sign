@@ -57,6 +57,8 @@ class Form {
 
                     this._doAction();
                 }
+
+                scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
             }
         };
     }
