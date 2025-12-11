@@ -8,8 +8,7 @@
  * 
  * @returns {Array}  Two-dimensional array.
  */
-const generateMirroredArray = (min, max, mirror_x, mirror_y) => {
-    // Step 1: Generate base array.
+function generateMirroredArray(min, max, mirror_x, mirror_y) {
     const base = [];
 
     for (let i = min; i <= max; i++) {
@@ -22,43 +21,44 @@ const generateMirroredArray = (min, max, mirror_x, mirror_y) => {
         base.push(row);
     }
 
-    /**
-     * Mirror array horizontally 'mirror_x' times.
-     * 
-     * @param {Array} arr  Array to mirror.
-     * 
-     * @returns {Array}
-     */
-    const mirrorHorizontal = arr => {
-        let result = arr.map(row => [...row]);
-
-        for (let i = 0; i < mirror_x; i++) {
-            result = result.map(row => row.concat([...row].reverse()));
-        }
-
-        return result;
-    }
-
-    /**
-     * Mirror array vertically 'mirror_y' times.
-     * 
-     * @param {Array} arr  Array to mirror.
-     * 
-     * @returns {Array}
-     */
-    const mirrorVertical = arr => {
-        let result = [...arr];
-
-        for (let i = 0; i < mirror_y; i++) {
-            result = result.concat([...result].reverse());
-        }
-
-        return result;
-    }
-
-    // Step 2: Apply mirrors.
-    let mirrored = mirrorHorizontal(base);
-    mirrored = mirrorVertical(mirrored);
+    let mirrored = mirrorHorizontally(base, mirror_x);
+    mirrored = mirrorVertically(mirrored, mirror_y);
 
     return mirrored;
+}
+
+/**
+ * Mirror array horizontally given times.
+ * 
+ * @param {Array}  array  Array to mirror.
+ * @param {number} times  How many times to mirror.
+ * 
+ * @returns {Array}
+ */
+function mirrorHorizontally(array, times) {
+    let result = array.map(row => [...row]);
+
+    for (let i = 0; i < times; i++) {
+        result = result.map(row => row.concat([...row].reverse()));
+    }
+
+    return result;
+}
+
+/**
+ * Mirror array vertically given times.
+ * 
+ * @param {Array}  array  Array to mirror.
+ * @param {number} times  How many times to mirror.
+ * 
+ * @returns {Array}
+ */
+function mirrorVertically(array, times) {
+    let result = [...array];
+
+    for (let i = 0; i < times; i++) {
+        result = result.concat([...result].reverse());
+    }
+
+    return result;
 }

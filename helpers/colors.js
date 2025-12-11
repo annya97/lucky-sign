@@ -34,11 +34,11 @@
  * Gets colors - main and background - based on params.
  * 
  * @param {DayMonthYear}
- * @param {string} name   Full name (optional).
+ * @param {string}       name  Full name (optional).
  * 
  * @returns {AutoColors}
  */
-const getAutoColors = ({day, month, year}, name = null) => {
+function getAutoColors({day, month, year}, name = null) {
     return name !== null
         ? getDateNameColors({day, month, year}, name)
         : getSeasonalColors({day, month, year});
@@ -48,11 +48,11 @@ const getAutoColors = ({day, month, year}, name = null) => {
  * Generates colors - main and background - based on date and name.
  * 
  * @param {DayMonthYear}
- * @param {string[]} name_letters  All valid letters of name.
+ * @param {string[]}     name_letters  All valid letters of name.
  * 
  * @returns {AutoColors}
  */
-const getDateNameColors = ({day, month, year}, name_letters) => {
+function getDateNameColors({day, month, year}, name_letters) {
     const name_number = name_letters
         .reduce((acc, curr) => {
             const index = [...ALPHABET].indexOf(curr);
@@ -96,7 +96,7 @@ const getDateNameColors = ({day, month, year}, name_letters) => {
  * 
  * @returns {AutoColors}
  */
-const getSeasonalColors = ({day, month, year}) => {
+function getSeasonalColors({day, month, year}) {
     const main_hsl = getMainHslSeasonal({day, month, year});
     const background_hsl = getBackgroundHslSeasonal(main_hsl, month);
 
@@ -113,7 +113,7 @@ const getSeasonalColors = ({day, month, year}) => {
  * 
  * @returns {number}
  */
-const getSumOfDigits = number => {
+function getSumOfDigits(number) {
     const sum = [...`${number}`]
         .reduce((acc, curr) => acc + Number(curr), 0);
 
@@ -132,7 +132,7 @@ const getSumOfDigits = number => {
  * 
  * @returns {number}
  */
-const clamp = (num, min, max) => {
+function clamp(num, min, max) {
     return Math.max(min, Math.min(max, num));
 }
 
@@ -143,7 +143,7 @@ const clamp = (num, min, max) => {
  * 
  * @returns {string}  Hex part.
  */
-const componentToHex = comp => {
+function componentToHex(comp) {
     const num = clamp(Math.round(comp), 0, 255);
 
     return `${num < 16 ? '0' : ''}${num.toString(16)}`;
@@ -156,7 +156,7 @@ const componentToHex = comp => {
  * 
  * @returns {string}  Hex in format "#rrggbb".
  */
-const rgbToHex = ({r, g, b}) => {
+function rgbToHex({r, g, b}) {
     return `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
 }
 
@@ -167,7 +167,7 @@ const rgbToHex = ({r, g, b}) => {
  * 
  * @returns {Rgb}
  */
-const hexToRgb = hex => {
+function hexToRgb(hex) {
     hex = hex.replace(/^#/, '');
 
     return {
@@ -184,7 +184,7 @@ const hexToRgb = hex => {
  * 
  * @returns {string}  Hex in format "#rrggbb".
  */
-const hslToHex = ({h, s, l}) => {
+function hslToHex({h, s, l}) {
     s /= 100;
     l /= 100;
 
@@ -229,7 +229,7 @@ const hslToHex = ({h, s, l}) => {
  * 
  * @returns {Hsl}
  */
-const hexToHsl = hex => {
+function hexToHsl(hex) {
     hex = hex.replace(/^#/, '');
 
     const {r, g, b} = hexToRgb(hex);
@@ -283,7 +283,7 @@ const hexToHsl = hex => {
  * 
  * @returns {Hsl}
  */
-const getMainHslSeasonal = ({day, month, year}) => {
+function getMainHslSeasonal({day, month, year}) {
     const base_hues = [210, 190, 160, 130, 100, 75, 55, 40, 25, 15, 330, 260];
     const month_index = clamp(month - 1, 0, 11);
     const next_index = (month_index + 1) % 12;
@@ -325,7 +325,7 @@ const getMainHslSeasonal = ({day, month, year}) => {
  * 
  * @returns {Hsl}
  */
-const getBackgroundHslSeasonal = ({h, s, l}, month) => {
+function getBackgroundHslSeasonal({h, s, l}, month) {
     // Saturation slightly higher than main, but capped.
     const saturation = clamp(s * 0.7 + 10, 40, 90);
 
