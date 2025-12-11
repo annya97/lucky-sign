@@ -107,6 +107,76 @@ function getSeasonalColors({day, month, year}) {
 }
 
 /**
+ * Generates seasonal main color hsl from given date.
+ * 
+ * @param {DayMonthYear}
+ * 
+ * @returns {Hsl}
+ */
+function getMainHslSeasonal({day, month, year}) {
+    const base_hues = [210, 190, 160, 130, 100, 75, 55, 40, 25, 15, 330, 260];
+    const month_index = clamp(month - 1, 0, 11);
+    const next_index = (month_index + 1) % 12;
+    const month_frac = (day - 1) / 31;
+    const hue1 = base_hues[month_index];
+    const hue2 = base_hues[next_index];
+
+    let diff = hue2 - hue1;
+
+    if (diff > 180) {
+        diff -= 360;
+    }
+    else if (diff < -180) {
+        diff += 360;
+    }
+
+    const hue = (hue1 + diff * month_frac + 360) % 360;
+
+    let saturation = 80 + (day / 31) * 15;
+    let lightness = 60 + ((year % 100) / 99) * 7;
+
+    // Saturation higher in summer.
+    if (month >= MONTHS.JUNE && month <= MONTHS.AUGUST) {
+        saturation += 5;
+    }
+
+    return {
+        h: hue,
+        s: saturation,
+        l: lightness
+    };
+}
+
+/**
+ * Generates seasonal background color hsl from given hsl.
+ * 
+ * @param {Hsl}
+ * @param {number} month  Month of year [1..12].
+ * 
+ * @returns {Hsl}
+ */
+function getBackgroundHslSeasonal({h, s, l}, month) {
+    // Saturation slightly higher than main, but capped.
+    const saturation = clamp(s * 0.7 + 10, 40, 90);
+
+    // Adaptive lightness boost.
+    const boost = l < 60 ? 35 : 25;
+
+    let lightness = clamp(l + boost, 70, 95);
+
+    // Lightness higher in some months.
+    if (month === MONTHS.FEBRUARY || month >= MONTHS.MAY && month <= MONTHS.AUGUST) {
+        lightness += 4;
+    }
+
+    return {
+        h,
+        s: saturation,
+        l: lightness
+    };
+}
+
+/**
  * Accumulates sum of all digits in number until one digit is left.
  * 
  * @param {number} number  Any number.
@@ -273,75 +343,5 @@ function hexToHsl(hex) {
         h: Math.round(h * 360),
         s: Math.round(s * 100),
         l: Math.round(l * 100)
-    };
-}
-
-/**
- * Generates seasonal main color hsl from given date.
- * 
- * @param {DayMonthYear}
- * 
- * @returns {Hsl}
- */
-function getMainHslSeasonal({day, month, year}) {
-    const base_hues = [210, 190, 160, 130, 100, 75, 55, 40, 25, 15, 330, 260];
-    const month_index = clamp(month - 1, 0, 11);
-    const next_index = (month_index + 1) % 12;
-    const month_frac = (day - 1) / 31;
-    const hue1 = base_hues[month_index];
-    const hue2 = base_hues[next_index];
-
-    let diff = hue2 - hue1;
-
-    if (diff > 180) {
-        diff -= 360;
-    }
-    else if (diff < -180) {
-        diff += 360;
-    }
-
-    const hue = (hue1 + diff * month_frac + 360) % 360;
-
-    let saturation = 80 + (day / 31) * 15;
-    let lightness = 60 + ((year % 100) / 99) * 7;
-
-    // Saturation higher in summer.
-    if (month >= MONTHS.JUNE && month <= MONTHS.AUGUST) {
-        saturation += 5;
-    }
-
-    return {
-        h: hue,
-        s: saturation,
-        l: lightness
-    };
-}
-
-/**
- * Generates seasonal background color hsl from given hsl.
- * 
- * @param {Hsl}
- * @param {number} month  Month of year [1..12].
- * 
- * @returns {Hsl}
- */
-function getBackgroundHslSeasonal({h, s, l}, month) {
-    // Saturation slightly higher than main, but capped.
-    const saturation = clamp(s * 0.7 + 10, 40, 90);
-
-    // Adaptive lightness boost.
-    const boost = l < 60 ? 35 : 25;
-
-    let lightness = clamp(l + boost, 70, 95);
-
-    // Lightness higher in some months.
-    if (month === MONTHS.FEBRUARY || month >= MONTHS.MAY && month <= MONTHS.AUGUST) {
-        lightness += 4;
-    }
-
-    return {
-        h,
-        s: saturation,
-        l: lightness
     };
 }
