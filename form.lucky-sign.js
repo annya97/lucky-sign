@@ -188,5 +188,7 @@ class LuckySignForm extends Form {
         const result = document.getElementById('result');
 
         result.appendChild(grid.getContainer());
+
+        result.scrollIntoView({behavior: 'smooth'});
     }
 }
